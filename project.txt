@@ -1,0 +1,2 @@
+User role - VLAN -> source IP & port name.
+Resource policy - Connection profile, split tunneling -> policy name & role.
