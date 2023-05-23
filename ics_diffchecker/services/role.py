@@ -28,7 +28,7 @@ class UserRoleService():
             print(f"Fetching user role {role} data")
             response = self.client.get(url=self.get_role+role)
             parsed_roles.append(response.json())
-            time.sleep(1)
+            # time.sleep(1)
         return parsed_roles
 
 
@@ -51,7 +51,7 @@ class UserRoleCompare():
 
             self._remove_diff_roles(diff_roles)
             assert (self.src_roles == self.trgt_roles), "Source & Target Roles are not same"
-        print("No difference in role count!")
+        print("\nNo difference in role count!")
 
     def _remove_diff_roles(self, diff_roles: list):
         """remove difference in roles"""
@@ -64,7 +64,8 @@ class UserRoleCompare():
     def vlan_check(self):
         """Vlan source IP check"""
         for src_role in self.src_roles:
-            trgt_role = self.trgt_roles.pop(src_role)
+            trgt_role_index = self.trgt_roles.index(src_role)
+            trgt_role = self.trgt_roles.pop(trgt_role_index)
             if not src_role.general == trgt_role.general:
                 print(f"Role:{src_role.name}")
                 # print( f"Source IP: {src_role.general['vlan-source-ip']['source-ip']}")

@@ -53,4 +53,4 @@ trgt_user_roles = trgt_role_models.create()
 
 compare = UserRoleCompare(src_user_roles, trgt_user_roles)
 compare.vlan_check()
-print("*** Done ***")
+print("\n*** Done ***")
