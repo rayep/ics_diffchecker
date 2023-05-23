@@ -25,7 +25,7 @@ class UserRoleService():
         parsed_roles = []
         roles = roles if roles else self.roles
         for role in roles:
-            print(f"Fetching user role {role} data")
+            print(f"Fetching user role '{role}' data")
             response = self.client.get(url=self.get_role+role)
             parsed_roles.append(response.json())
             # time.sleep(1)
@@ -59,7 +59,7 @@ class UserRoleCompare():
             try:
                 self.src_roles.remove(role)
             except ValueError:
-                print(f"{role.name} not found in source list to delete")
+                print(f"'{role.name}' not found in source list to delete")
 
     def vlan_check(self):
         """Vlan source IP check"""
