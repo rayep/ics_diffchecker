@@ -4,7 +4,8 @@ import time
 
 
 class UserRoleService():
-    """Get all User roles from ICS"""
+    """Get all User roles from ICS
+    Low level service that fetches the available user roles from ICS servers using enum_roles & get_roles URL"""
 
     enum_roles = '/api/v1/configuration/users/user-roles'
     get_role = '/api/v1/configuration/users/user-roles/user-role/'
@@ -21,7 +22,8 @@ class UserRoleService():
                           for role in roles.json()['user-role']]))
 
     def fetch(self, roles: list):
-        """Parse user roles from API response"""
+        """Parse user roles from API response.
+        parsed_roles list contains dict of all user roles JSON content"""
         parsed_roles = []
         roles = roles if roles else self.roles
         for role in roles:
@@ -33,7 +35,9 @@ class UserRoleService():
 
 
 class UserRoleCompare():
-    """Compare user roles"""
+    """Compare user roles.
+    User Role model is hashing the user-role name attribute
+    which allows them to converted as python set object for comparison."""
 
     def __init__(self, src_roles: list, trgt_roles: list) -> None:
         self.src_roles = src_roles
@@ -54,7 +58,7 @@ class UserRoleCompare():
         print("\nNo difference in role count!")
 
     def _remove_diff_roles(self, diff_roles: list):
-        """remove difference in roles"""
+        """Remove difference in roles from src_roles list and highlight the same to user"""
         for role in diff_roles:
             try:
                 self.src_roles.remove(role)
@@ -64,7 +68,8 @@ class UserRoleCompare():
     def vlan_check(self):
         """Vlan source IP check"""
         for src_role in self.src_roles:
-            trgt_role_index = self.trgt_roles.index(src_role)
+            trgt_role_index = self.trgt_roles.index(src_role) # Since both src_roles & trgt_roles are same
+            # we are fetching the index of role and pop it from trgt_roles.
             trgt_role = self.trgt_roles.pop(trgt_role_index)
             if not src_role.general == trgt_role.general:
                 print(f"Role:{src_role.name}")
